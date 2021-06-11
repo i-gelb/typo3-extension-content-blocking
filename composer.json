@@ -1,7 +1,8 @@
 {
     "name": "igelb/ig-content-blocking",
     "type": "typo3-cms-extension",
-    "description": "Automatically blocks iframes and asks the user for consent",
+    "version": "1.0.0",
+    "description": "Automatically blocks iframes/scripts and asks the user for consent",
     "license": "GPL-2.0-or-later",
     "authors": [
         {

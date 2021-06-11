@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'GDPR Content Blocking',
-    'description' => 'Automatically blocks iframes and asks the user for consent',
+    'description' => 'Automatically blocks iframes/scripts and asks the user for consent',
     'category' => 'fe',
     'author' => 'Lasse Blomenkemper',
     'author_company' => 'i-gelb GmbH',

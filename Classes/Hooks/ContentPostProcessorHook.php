@@ -1,76 +1,100 @@
 <?php
 
 namespace Igelb\IgContentBlocking\Hooks;
-
 class ContentPostProcessorHook
 {
-    public function removeExternalContent(&$parameters)
+    /**
+     * "Controller" of the hook
+     * 
+     * @param array $parameters 
+     * 
+     * @return void 
+     */
+    public function removeExternalContent(array &$parameters)
     {
         $html = &$parameters['pObj']->content;
-        $dom  = $this->_loadHtml($html);
+        $document = $this->_loadHtml($html);
 
-        $scriptTags = $dom->getElementsByTagName('script');
-        $iframeTags = $dom->getElementsByTagName('iframe');
+        $scriptTags = $document->getElementsByTagName('script');
+        $iframeTags = $document->getElementsByTagName('iframe');
 
         if (count($scriptTags) || count($iframeTags)) {
+
+            // Iterate thourgh `<script>` tags
             $scriptIterator = $scriptTags->length - 1;
             while ($scriptIterator > -1) {
+                // Get elment by index
                 $tag = $scriptTags->item($scriptIterator);
 
-                if ($tag->getAttribute('data-block-script') === 'true') {
+                if ($tag->getAttribute('data-no-consent-required') === 'true') {
                     $tag = $scriptTags->item($scriptIterator);
-                    $this->_modifyContent($tag, $dom, 'script');
+                    $this->_modifyContent($tag, $document, 'script');
                 }
 
                 $scriptIterator--;
             }
 
+            // Iterate thourgh `<iframe>` tags
             $iframeIterator = $iframeTags->length - 1;
             while ($iframeIterator > -1) {
+                // Get elment by index
                 $tag = $iframeTags->item($iframeIterator);
 
-                if ($tag->getAttribute('data-ignore') !== 'true') {
-                    $this->_modifyContent($tag, $dom, 'iframe');
+                if ($tag->getAttribute('data-no-consent-required') !== 'true') {
+                    $this->_modifyContent($tag, $document, 'iframe');
                 }
 
                 $iframeIterator--;
             }
 
-            $html = $dom->saveHTML();
+            $html = $document->saveHTML();
+
         }
     }
     
-    private function _modifyContent($tag, $dom, string $tagType)
-    {
+    /**
+     * Replaces the original element with the consent banner
+     * 
+     * @param \DOMElement $tag The tag
+     * @param \DOMDocument $dom The Document
+     * @param string $tagName The name/type of the tag
+     * 
+     * @return \DOMElement 
+     */
+    private function _modifyContent(
+        \DOMElement $tag,
+        \DOMDocument $document,
+        string $tagName
+    ): \DOMElement {
         $src = $tag->getAttribute('src');
         $host = parse_url($src)['host'];
         $host = str_replace('www.', '', $host);
 
         // Create replacement element
-        $div = $dom->createElement('div');
+        $div = $document->createElement('div');
         $div->setAttribute('data-attribute-src', $src);
         $div->setAttribute('class', 'cc-blocked');
 
-        $container = $dom->createElement('div');
+        $container = $document->createElement('div');
         $container->setAttribute('class', 'cc-blocked-container');
 
-        $headline = $dom->createElement('p');
+        $headline = $document->createElement('p');
         $headline->setAttribute('class', 'cc-blocked-headline');
         $headline->nodeValue = 'Externer Inhalt';
 
-        $text1 = $dom->createElement('p');
+        $text1 = $document->createElement('p');
         $text1->setAttribute('class', 'cc-blocked-text');
-        $text1->nodeValue = 'Dieser Inhalt von';
+        $text1->nodeValue = 'Hier wird ein Inhalt von';
 
-        $domain = $dom->createElement('p');
+        $domain = $document->createElement('p');
         $domain->setAttribute('class', 'cc-blocked-host');
         $domain->nodeValue = $host;
 
-        $text2 = $dom->createElement('p');
+        $text2 = $document->createElement('p');
         $text2->setAttribute('class', 'cc-blocked-text');
-        $text2->nodeValue = 'wird aus Datenschutzgründen erst nach expliziter Zustimmung angezeigt.';
+        $text2->nodeValue = 'eingebunden.';
 
-        $button = $dom->createElement('button');
+        $button = $document->createElement('button');
         $button->nodeValue = 'Inhalt anzeigen';
 
         $container->appendChild($headline);
@@ -91,21 +115,26 @@ class ContentPostProcessorHook
         }
 
         // Is used to detect which tag should be created in the frontend after consent
-        $div->setAttribute('data-node-name', $tagType);
+        $div->setAttribute('data-node-name', $tagName);
 
         $tag->parentNode->replaceChild($div, $tag);
 
         return $tag;
     }
     
+    /**
+     * Loads an HTML string into a DOMDocument object
+     * 
+     * @param string $html
+     * 
+     * @return \DOMDocument 
+     */
     private function _loadHtml(string $html)
     {
-        $doc = new \DOMDocument();
-
-        // Avoid errors when loading html5 tags
+        $document = new \DOMDocument();
         libxml_use_internal_errors(true);
 
-        $doc->loadHTML(
+        $document->loadHTML(
             mb_convert_encoding(
                 $html,
                 'HTML-ENTITIES',
@@ -114,8 +143,11 @@ class ContentPostProcessorHook
             LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
         );
 
+        // Basically, we just ignore any errors while loading the HTML,
+        // since it's none of our business if it's valid.
+        // This is also necessary because HTML5 tags would also throw an error every time.
         libxml_clear_errors();
 
-        return $doc;
+        return $document;
     }
 }
