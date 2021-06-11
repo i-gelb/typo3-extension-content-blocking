@@ -1,6 +1,10 @@
 # ig_content_blocking
 Blockiert sämtliche `<iframe>` und `<script>` Elemente innerhalb des HTML body und ersetzt diese durch einen Einwilligungs-Banner.
 
+## Requirements
+- PHP 7.3
+- TYPO3 10
+
 ## Wichtig
 Diese Extension NICHT klonen und als Systemeigene betrachten, sondern als Git Submodule einbinden!
 
