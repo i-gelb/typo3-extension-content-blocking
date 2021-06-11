@@ -1,0 +1,25 @@
+{
+    "name": "igelb/ig-content-blocking",
+    "type": "typo3-cms-extension",
+    "description": "Automatically blocks iframes and asks the user for consent",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Lasse Blomenkemper",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "typo3/cms-core": "^10.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Igelb\\IgContentBlocking\\": "Classes"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "ig_content_blocking"
+        }
+    }
+}
