@@ -7,7 +7,8 @@ Blockiert sämtliche `<iframe>` und `<script>` Elemente innerhalb des HTML body 
 - Moderne Clients (**Kein** IE11 Support)
 
 ## Wichtig
-Diese Extension **NICHT** klonen und als Systemeigene betrachten, sondern als Git Submodule einbinden!
+Diese Extension **NICHT** klonen und als Systemeigene betrachten, sondern als Git Submodule einbinden!<br>
+Als Git-URL sollte `https://pipeline:bAxb4w8YRgJWvJNcsSSs@gitlab.i-gelb.net/gdpr-resources/ig_content_blocking.git` genutzt werden.
 
 ## Styling?
 Die Extension kommt bewusst ohne CSS, dieses muss im Projekt verankert werden.
