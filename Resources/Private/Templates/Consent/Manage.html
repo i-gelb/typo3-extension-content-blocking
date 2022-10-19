@@ -1,0 +1,19 @@
+<div class="external-consent-management">
+    <f:if condition="{domains}">
+        <f:then>
+            <div class="external-consent-management__list">
+                <f:for each="{domains}" as="domain">
+                    <div class="external-consent-management__row">
+                        <p class="external-consent-management__domain">{domain}</p>
+                        <button class="external-consent-management__button" data-domain="{domain}">
+                            Entscheidung widerrufen
+                        </button>
+                    </div>
+                </f:for>
+            </div>
+        </f:then>
+        <f:else>
+            <p>Sie haben aktuell keinerlei externe Quellen zugelassen.</p>
+        </f:else>
+    </f:if>
+</div>
