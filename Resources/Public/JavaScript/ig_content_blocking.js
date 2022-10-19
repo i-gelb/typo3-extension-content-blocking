@@ -1,5 +1,9 @@
+// As of #327
+window.persistentAllowDecision = true;
+
 const allowContentElementButtons = document.querySelectorAll('.cc-blocked button')
 const blockedContentElements = document.querySelectorAll('.cc-blocked')
+const removeDomainFromAllowListButton = document.querySelectorAll('.external-consent-management__button')
 
 /**
  * Allows a new hostname
@@ -122,5 +126,17 @@ if (allowContentElementButtons && blockedContentElements) {
                 element.parentElement.classList.add('blocked')
             }
         }
+    })
+}
+
+if (removeDomainFromAllowListButton) {
+    removeDomainFromAllowListButton.forEach(element => {
+        element.addEventListener('click', event => {
+            if (event.isTrusted) {
+                removeHostFromAllowlist(event.target.getAttribute('data-domain'))
+
+                window.location.reload();
+            }
+        })
     })
 }
