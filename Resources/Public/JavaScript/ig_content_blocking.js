@@ -1,4 +1,3 @@
-// As of #327
 window.persistentAllowDecision = true;
 
 const allowContentElementButtons = document.querySelectorAll('.cc-blocked button')
