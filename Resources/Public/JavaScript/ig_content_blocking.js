@@ -17,6 +17,11 @@ const addHostToAllowlist = (hostname) => {
     }
 
     persistHostnamesInCookie(hostnames)
+
+    // Send event to enable iframe resize after unblocking
+    document.dispatchEvent(
+        new CustomEvent("content_permitted")
+    )
 }
 
 /**
@@ -70,7 +75,7 @@ const persistHostnamesInCookie = (hostnames) => {
 
 if (allowContentElementButtons && blockedContentElements) {
     allowContentElementButtons.forEach(element => {
-        element.addEventListener('click', event => { 
+        element.addEventListener('click', event => {
             // Add original attributes to new element
             const tagName = event.target.parentElement.parentElement.getAttribute('data-node-name')
             const attributes = event.target.parentElement.parentElement.attributes
