@@ -18,9 +18,8 @@ const addHostToAllowlist = (hostname) => {
 
     persistHostnamesInCookie(hostnames)
 
-    // Send event to enable iframe resize after unblocking
     document.dispatchEvent(
-        new CustomEvent("content_permitted")
+        new CustomEvent("hostname_permitted", { hostname })
     )
 }
 
@@ -39,6 +38,10 @@ const addHostToAllowlist = (hostname) => {
     })
 
     persistHostnamesInCookie(hostnames)
+
+    document.dispatchEvent(
+        new CustomEvent("hostname_denied", { hostname })
+    )
 }
 
 /**
@@ -111,6 +114,10 @@ if (allowContentElementButtons && blockedContentElements) {
                     }
                 })
             }
+
+            document.dispatchEvent(
+                new CustomEvent("content_unblocked")
+            )
         })
     })
 
