@@ -6,148 +6,149 @@ const removeDomainFromAllowListButton = document.querySelectorAll('.external-con
 
 /**
  * Allows a new hostname
- * 
+ *
  * @param {string} hostname The hostname
  */
 const addHostToAllowlist = (hostname) => {
-    let hostnames = getAllowedHosts()
+  let hostnames = getAllowedHosts()
 
-    if (!hostnames.includes(hostname)) {
-        hostnames.push(hostname)
-    }
+  if (!hostnames.includes(hostname)) {
+    hostnames.push(hostname)
+  }
 
-    persistHostnamesInCookie(hostnames)
+  persistHostnamesInCookie(hostnames)
 
-    document.dispatchEvent(
-        new CustomEvent("hostname_permitted", { hostname })
-    )
+  document.dispatchEvent(
+    new CustomEvent("hostname_permitted", { hostname })
+  )
 }
 
 /**
  * Removes a hostname from the allowlist
- * 
+ *
  * @param {string} hostname The hostname
  */
- const removeHostFromAllowlist = (hostname) => {
-    let hostnames = getAllowedHosts()
-    
-    hostnames = hostnames.filter((value, index, arr) => {
-        if (value !== hostname) {
-            return value
-        }
-    })
+const removeHostFromAllowlist = (hostname) => {
+  let hostnames = getAllowedHosts()
 
-    persistHostnamesInCookie(hostnames)
+  hostnames = hostnames.filter((value, index, arr) => {
+    if (value !== hostname) {
+      return value
+    }
+  })
 
-    document.dispatchEvent(
-        new CustomEvent("hostname_denied", { hostname })
-    )
+  persistHostnamesInCookie(hostnames)
+
+  document.dispatchEvent(
+    new CustomEvent("hostname_denied", { hostname })
+  )
 }
 
 /**
  * Returns the allowed hostnames
- * 
+ *
  * @returns {array} The allowed hostnames
  */
 const getAllowedHosts = () => {
-	const cookies = document.cookie.split('; ')
-    let allowedHostnames = []
+  const cookies = document.cookie.split('; ')
+  let allowedHostnames = []
 
-    cookies.forEach(cookie => {
-        const name = cookie.split('=')[0]
-        const value = cookie.split('=')[1]
+  cookies.forEach(cookie => {
+    const name = cookie.split('=')[0]
+    const value = cookie.split('=')[1]
 
-        if (name === 'allowed_domains') {
-            allowedHostnames = JSON.parse(value)
-        }
-    })
+    if (name === 'allowed_domains') {
+      allowedHostnames = JSON.parse(value)
+    }
+  })
 
-	return allowedHostnames
+  return allowedHostnames
 }
 
 /**
  * Writes a cookie with the given hostnames
- * 
+ *
  * @param {array} hostnames
  */
 const persistHostnamesInCookie = (hostnames) => {
-    const date = new Date()
-    date.setTime(date.getTime() + 31536000000) // One year
-	document.cookie = `allowed_domains=${JSON.stringify(hostnames)}; expires=${date.toGMTString()}; path=/`
+  const date = new Date()
+  date.setTime(date.getTime() + 31536000000) // One year
+  document.cookie = `allowed_domains=${JSON.stringify(hostnames)}; expires=${date.toGMTString()}; path=/`
 }
 
 if (allowContentElementButtons && blockedContentElements) {
-    allowContentElementButtons.forEach(element => {
-        element.addEventListener('click', event => {
-            // Add original attributes to new element
-            const tagName = event.target.parentElement.parentElement.getAttribute('data-node-name')
-            const attributes = event.target.parentElement.parentElement.attributes
-            const element = document.createElement(tagName)
-    
-            for (let i = 0; i < attributes.length; i++) {
-                element.setAttribute(
-                    attributes[i].nodeName.replace('data-attribute-', ''),
-                    attributes[i].nodeValue
-                )
-            }
-    
-            event.target.parentElement.parentElement.replaceWith(element)
+  allowContentElementButtons.forEach(element => {
+    element.addEventListener('click', event => {
+      // Add original attributes to new element
+      const tagName = event.target.parentElement.parentElement.getAttribute('data-node-name')
+      const attributes = event.target.parentElement.parentElement.attributes
+      const element = document.createElement(tagName)
 
-            // Allow all other elements with that domain
-            if (event.isTrusted) {
-                const hostname = event.target.parentElement.querySelector('.cc-blocked-host').innerText
-                addHostToAllowlist(hostname)
-    
-                blockedContentElements.forEach(element => {
-                    const host = element.querySelector('.cc-blocked-host').innerText
-                    const allowButton = element.querySelector('button')
-        
-                    // Restore css for iframe styling
-                    if (element.parentElement) {
-                        if (element.parentElement.classList.contains('video-embed')) {
-                            element.parentElement.classList.remove('blocked')
-                        }
-                    }
-        
-                    if (host === hostname) {
-                        allowButton.click()
-                    }
-                })
-            }
+      for (let i = 0; i < attributes.length; i++) {
+        element.setAttribute(
+          attributes[i].nodeName.replace('data-attribute-', ''),
+          attributes[i].nodeValue
+        )
+      }
 
-            document.dispatchEvent(
-                new CustomEvent("content_unblocked")
-            )
-        })
-    })
+      event.target.parentElement.parentElement.replaceWith(element)
 
-    const allowedHostnames = getAllowedHosts()
-    blockedContentElements.forEach(element => {
-        // Enable all previously allowed elements
-        if (window.persistentAllowDecision) {
-            const hostname = element.querySelector('.cc-blocked-host').textContent
-            if (allowedHostnames.includes(hostname)) {
-                element.querySelector('button').click()
-            }
-        }
+      // Allow all other elements with that domain
+      if (event.isTrusted) {
+        const hostname = event.target.parentElement.parentElement.getAttribute('data-hostname')
+        addHostToAllowlist(hostname)
 
-        // Add `blocked` class to parent element for styling
-        if (element.parentElement) {
+        blockedContentElements.forEach(element => {
+          const host = element.getAttribute('data-hostname')
+          const allowButton = element.querySelector('button')
+
+          // Restore css for iframe styling
+          if (element.parentElement) {
             if (element.parentElement.classList.contains('video-embed')) {
-                element.parentElement.classList.add('blocked')
+              element.parentElement.classList.remove('blocked')
             }
-        }
+          }
+
+          if (host === hostname) {
+            allowButton.click()
+          }
+        })
+      }
+
+      document.dispatchEvent(
+        new CustomEvent("content_unblocked")
+      )
     })
+  })
+
+  const allowedHostnames = getAllowedHosts()
+  blockedContentElements.forEach(element => {
+    // Enable all previously allowed elements
+    if (window.persistentAllowDecision) {
+      const hostname = element.getAttribute('data-hostname')
+
+      if (allowedHostnames.includes(hostname)) {
+        element.querySelector('button').click()
+      }
+    }
+
+    // Add `blocked` class to parent element for styling
+    if (element.parentElement) {
+      if (element.parentElement.classList.contains('video-embed')) {
+        element.parentElement.classList.add('blocked')
+      }
+    }
+  })
 }
 
 if (removeDomainFromAllowListButton) {
-    removeDomainFromAllowListButton.forEach(element => {
-        element.addEventListener('click', event => {
-            if (event.isTrusted) {
-                removeHostFromAllowlist(event.target.getAttribute('data-domain'))
+  removeDomainFromAllowListButton.forEach(element => {
+    element.addEventListener('click', event => {
+      if (event.isTrusted) {
+        removeHostFromAllowlist(event.target.getAttribute('data-domain'))
 
-                window.location.reload();
-            }
-        })
+        window.location.reload();
+      }
     })
+  })
 }

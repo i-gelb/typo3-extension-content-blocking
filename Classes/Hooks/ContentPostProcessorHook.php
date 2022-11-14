@@ -1,14 +1,15 @@
 <?php
 
 namespace Igelb\IgContentBlocking\Hooks;
+
 class ContentPostProcessorHook
 {
     /**
      * "Controller" of the hook
-     * 
-     * @param array $parameters 
-     * 
-     * @return void 
+     *
+     * @param array $parameters
+     *
+     * @return void
      */
     public function removeExternalContent(array &$parameters)
     {
@@ -19,7 +20,6 @@ class ContentPostProcessorHook
         $iframeTags = $document->getElementsByTagName('iframe');
 
         if (count($scriptTags) || count($iframeTags)) {
-
             // Iterate thourgh `<script>` tags
             $scriptIterator = $scriptTags->length - 1;
             while ($scriptIterator > -1) {
@@ -48,18 +48,17 @@ class ContentPostProcessorHook
             }
 
             $html = $document->saveHTML();
-
         }
     }
-    
+
     /**
      * Replaces the original element with the consent banner
-     * 
+     *
      * @param \DOMElement $tag The tag
      * @param \DOMDocument $dom The Document
      * @param string $tagName The name/type of the tag
-     * 
-     * @return \DOMElement 
+     *
+     * @return \DOMElement
      */
     private function _modifyContent(
         \DOMElement $tag,
@@ -73,6 +72,7 @@ class ContentPostProcessorHook
         // Create replacement element
         $div = $document->createElement('div');
         $div->setAttribute('data-attribute-src', $src);
+        $div->setAttribute('data-hostname', $host);
         $div->setAttribute('class', 'cc-blocked');
 
         $container = $document->createElement('div');
@@ -82,25 +82,15 @@ class ContentPostProcessorHook
         $headline->setAttribute('class', 'cc-blocked-headline');
         $headline->nodeValue = 'Externer Inhalt';
 
-        $text1 = $document->createElement('p');
-        $text1->setAttribute('class', 'cc-blocked-text');
-        $text1->nodeValue = 'Hier wird ein Inhalt von';
-
-        $domain = $document->createElement('p');
-        $domain->setAttribute('class', 'cc-blocked-host');
-        $domain->nodeValue = $host;
-
-        $text2 = $document->createElement('p');
-        $text2->setAttribute('class', 'cc-blocked-text');
-        $text2->nodeValue = 'eingebunden.';
+        $text = $document->createElement('p');
+        $text->setAttribute('class', 'cc-blocked-text');
+        $text->nodeValue = "Hier wird ein Inhalt von $host eingebunden. ";
 
         $button = $document->createElement('button');
         $button->nodeValue = 'Inhalt anzeigen';
 
         $container->appendChild($headline);
-        $container->appendChild($text1);
-        $container->appendChild($domain);
-        $container->appendChild($text2);
+        $container->appendChild($text);
         $container->appendChild($button);
         $div->appendChild($container);
 
@@ -121,13 +111,13 @@ class ContentPostProcessorHook
 
         return $tag;
     }
-    
+
     /**
      * Loads an HTML string into a DOMDocument object
-     * 
+     *
      * @param string $html
-     * 
-     * @return \DOMDocument 
+     *
+     * @return \DOMDocument
      */
     private function _loadHtml(string $html)
     {
