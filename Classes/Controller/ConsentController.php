@@ -27,7 +27,8 @@ class ConsentController extends ActionController
      */
     public function manageAction(): void
     {
-        if ($_COOKIE[self::_COOKIE_NAME]) {
+        $domainCookieValue = '';
+        if (isset($_COOKIE[self::_COOKIE_NAME])) {
             $domainCookieValue = $_COOKIE[self::_COOKIE_NAME];
         }
 
