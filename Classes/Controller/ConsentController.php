@@ -27,7 +27,9 @@ class ConsentController extends ActionController
      */
     public function manageAction(): void
     {
-        $domainCookieValue = $_COOKIE[self::_COOKIE_NAME];
+        if ($_COOKIE[self::_COOKIE_NAME]) {
+            $domainCookieValue = $_COOKIE[self::_COOKIE_NAME];
+        }
 
         $this->view->assign(
             'domains',
