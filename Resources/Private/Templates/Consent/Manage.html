@@ -1,10 +1,8 @@
 <div class="external-consent-management">
-    <f:comment><!-- TODO: This is a temporary fix --></f:comment>
-    <div class="external-consent-management__close"></div>
-    
     <f:if condition="{domains}">
         <f:then>
             <div class="external-consent-management__list">
+                <div class="external-consent-management__close"></div>
                 <f:for each="{domains}" as="domain">
                     <div class="external-consent-management__row">
                         <p class="external-consent-management__domain">{domain}</p>
@@ -16,7 +14,10 @@
             </div>
         </f:then>
         <f:else>
-            <p>Sie haben aktuell keinerlei externe Quellen zugelassen.</p>
+            <div class="external-consent-management__list">
+                <div class="external-consent-management__close"></div>
+                <p>Sie haben aktuell keinerlei externe Quellen zugelassen.</p>
+            </div>
         </f:else>
     </f:if>
 </div>
