@@ -9,7 +9,7 @@ const removeDomainFromAllowListButton = document.querySelectorAll('.external-con
  *
  * @param {string} hostname The hostname
  */
-const addHostToAllowlist = (hostname) => {
+window.addHostToAllowlist = (hostname) => {
   let hostnames = getAllowedHosts()
 
   if (!hostnames.includes(hostname)) {
@@ -28,7 +28,7 @@ const addHostToAllowlist = (hostname) => {
  *
  * @param {string} hostname The hostname
  */
-const removeHostFromAllowlist = (hostname) => {
+window.removeHostFromAllowlist = (hostname) => {
   let hostnames = getAllowedHosts()
 
   hostnames = hostnames.filter((value, index, arr) => {
@@ -37,7 +37,7 @@ const removeHostFromAllowlist = (hostname) => {
     }
   })
 
-  persistHostnamesInCookie(hostnames)
+  window.persistHostnamesInCookie(hostnames)
 
   document.dispatchEvent(
     new CustomEvent("hostname_denied", { hostname })
@@ -49,7 +49,7 @@ const removeHostFromAllowlist = (hostname) => {
  *
  * @returns {array} The allowed hostnames
  */
-const getAllowedHosts = () => {
+window.getAllowedHosts = () => {
   const cookies = document.cookie.split('; ')
   let allowedHostnames = []
 
@@ -70,7 +70,7 @@ const getAllowedHosts = () => {
  *
  * @param {array} hostnames
  */
-const persistHostnamesInCookie = (hostnames) => {
+window.persistHostnamesInCookie = (hostnames) => {
   const date = new Date()
   date.setTime(date.getTime() + 31536000000) // One year
   document.cookie = `allowed_domains=${JSON.stringify(hostnames)}; expires=${date.toGMTString()}; path=/`
@@ -96,7 +96,7 @@ if (allowContentElementButtons && blockedContentElements) {
       // Allow all other elements with that domain
       if (event.isTrusted) {
         const hostname = event.target.parentElement.parentElement.getAttribute('data-hostname')
-        addHostToAllowlist(hostname)
+        window.addHostToAllowlist(hostname)
 
         blockedContentElements.forEach(element => {
           const host = element.getAttribute('data-hostname')
@@ -121,7 +121,7 @@ if (allowContentElementButtons && blockedContentElements) {
     })
   })
 
-  const allowedHostnames = getAllowedHosts()
+  const allowedHostnames = window.getAllowedHosts()
   blockedContentElements.forEach(element => {
     // Enable all previously allowed elements
     if (window.persistentAllowDecision) {
@@ -145,7 +145,7 @@ if (removeDomainFromAllowListButton) {
   removeDomainFromAllowListButton.forEach(element => {
     element.addEventListener('click', event => {
       if (event.isTrusted) {
-        removeHostFromAllowlist(event.target.getAttribute('data-domain'))
+        window.removeHostFromAllowlist(event.target.getAttribute('data-domain'))
 
         window.location.reload();
       }
