@@ -84,13 +84,21 @@ class ContentPostProcessorHook
 
         $text = $document->createElement('p');
         $text->setAttribute('class', 'cc-blocked-text');
-        $text->nodeValue = "Hier wird ein Inhalt von $host eingebunden. ";
+        $text->nodeValue = "Hier wird ein Inhalt von $host eingebunden.";
+
+        $lineBreak = $document->createElement('br');
+
+        $helpText = $document->createElement('p');
+        $helpText->setAttribute('class', 'cc-blocked-text');
+        $helpText->nodeValue = "Da es sich um einen externen Inhalt handelt, bitten wir entsprechend den aktuell geltenden Datenschutzanforderungen um Ihre Einwilligung indem Sie auf \"Inhalt anzeigen\" klicken. Anschließend wird Ihnen der Inhalt wie gewohnt zur Verfügung stehen.";
 
         $button = $document->createElement('button');
         $button->nodeValue = 'Inhalt anzeigen';
 
         $container->appendChild($headline);
         $container->appendChild($text);
+        $container->appendChild($lineBreak);
+        $container->appendChild($helpText);
         $container->appendChild($button);
         $div->appendChild($container);
 
