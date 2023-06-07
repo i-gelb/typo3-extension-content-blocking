@@ -15,9 +15,9 @@
 			<trans-unit id="button_text" xml:space="preserve">
 				<source>Show content</source>
 			</trans-unit>
-			<trans-unit id="additional_text" xml:space="preserve">
+			<!-- <trans-unit id="additional_text" xml:space="preserve">
 				<source>You can revoke your consent under "Privacy Settings" at the bottom of the page.</source>
-			</trans-unit>
+			</trans-unit> -->
 		</body>
 	</file>
 </xliff>

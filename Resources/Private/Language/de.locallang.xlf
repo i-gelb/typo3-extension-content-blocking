@@ -19,10 +19,10 @@
 				<source>Show content</source>
 				<target>Inhalt anzeigen</target>
 			</trans-unit>
-			<trans-unit id="additional_text" xml:space="preserve">
+			<!-- <trans-unit id="additional_text" xml:space="preserve">
 				<source>You can revoke your consent under "Privacy Settings" at the bottom of the page.</source>
 				<target>Sie können Ihre Einwilligung unter "Privatsphäre-Einstellungen" am Ende der Seite zurücknehmen.</target>
-			</trans-unit>
+			</trans-unit> -->
 		</body>
 	</file>
 </xliff>
