@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2023-06-07T12:00:48Z" product-name="ig_content_blocking">
+		<header/>
+		<body>
+			<trans-unit id="help_text" xml:space="preserve">
+				<source>As it involves external content, we ask for your consent in accordance with the currently applicable data protection requirements by clicking on "Show content". After that, the content will be available to you as usual.</source>
+			</trans-unit>
+			<trans-unit id="host_text" xml:space="preserve">
+				<source>Here, content from %1$s is being integrated.</source>
+			</trans-unit>
+			<trans-unit id="header" xml:space="preserve">
+				<source>External content</source>
+			</trans-unit>
+			<trans-unit id="button_text" xml:space="preserve">
+				<source>Show content</source>
+			</trans-unit>
+			<trans-unit id="additional_text" xml:space="preserve">
+				<source>You can revoke your consent under "Privacy Settings" at the bottom of the page.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

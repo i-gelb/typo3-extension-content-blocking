@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2023-06-07T12:00:48Z" product-name="ig_content_blocking">
+		<header/>
+		<body>
+			<trans-unit id="help_text" xml:space="preserve">
+				<source>As it involves external content, we ask for your consent in accordance with the currently applicable data protection requirements by clicking on "Show content". After that, the content will be available to you as usual.</source>
+				<target state="translated">Da es sich um einen externen Inhalt handelt, bitten wir entsprechend den aktuell geltenden Datenschutzanforderungen um Ihre Einwilligung indem Sie auf "Inhalt anzeigen" klicken. Anschließend wird Ihnen der Inhalt wie gewohnt zur Verfügung stehen.</target>
+			</trans-unit>
+			<trans-unit id="host_text" xml:space="preserve">
+				<source>Here, content from %1$s is being integrated.</source>
+				<target>Hier wird ein Inhalt von %1$s eingebunden.</target>
+			</trans-unit>
+			<trans-unit id="header" xml:space="preserve">
+				<source>External content</source>
+				<target>Externer Inhalt</target>
+			</trans-unit>
+			<trans-unit id="button_text" xml:space="preserve">
+				<source>Show content</source>
+				<target>Inhalt anzeigen</target>
+			</trans-unit>
+			<trans-unit id="additional_text" xml:space="preserve">
+				<source>You can revoke your consent under "Privacy Settings" at the bottom of the page.</source>
+				<target>Sie können Ihre Einwilligung unter "Privatsphäre-Einstellungen" am Ende der Seite zurücknehmen.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
