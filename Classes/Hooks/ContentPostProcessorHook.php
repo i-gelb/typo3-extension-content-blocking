@@ -2,6 +2,8 @@
 
 namespace Igelb\IgContentBlocking\Hooks;
 
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+
 class ContentPostProcessorHook
 {
     /**
@@ -80,22 +82,43 @@ class ContentPostProcessorHook
 
         $headline = $document->createElement('p');
         $headline->setAttribute('class', 'cc-blocked-headline');
-        $headline->nodeValue = 'Externer Inhalt';
+        $headline->nodeValue = LocalizationUtility::translate(
+            key: 'header',
+            extensionName: 'ig_content_blocking'
+        );
 
         $text = $document->createElement('p');
         $text->setAttribute('class', 'cc-blocked-text');
-        $text->nodeValue = "Hier wird ein Inhalt von $host eingebunden.";
+        $text->nodeValue = LocalizationUtility::translate(
+            key: 'host_text',
+            extensionName: 'ig_content_blocking',
+            arguments: [$host]
+        );
 
         $helpText = $document->createElement('p');
         $helpText->setAttribute('class', 'cc-blocked-text');
-        $helpText->nodeValue = "Da es sich um einen externen Inhalt handelt, bitten wir entsprechend den aktuell geltenden Datenschutzanforderungen um Ihre Einwilligung indem Sie auf \"Inhalt anzeigen\" klicken. Anschließend wird Ihnen der Inhalt wie gewohnt zur Verfügung stehen.";
+        $helpText->nodeValue = LocalizationUtility::translate(
+            key: 'help_text',
+            extensionName: 'ig_content_blocking'
+        );
+
+        $additionalText = $document->createElement('p');
+        $additionalText->setAttribute('class', 'cc-blocked-text');
+        $additionalText->nodeValue = LocalizationUtility::translate(
+            key: 'additional_text',
+            extensionName: 'ig_content_blocking'
+        );
 
         $button = $document->createElement('button');
-        $button->nodeValue = 'Inhalt anzeigen';
+        $button->nodeValue = LocalizationUtility::translate(
+            key: 'button_text',
+            extensionName: 'ig_content_blocking'
+        );
 
         $container->appendChild($headline);
         $container->appendChild($text);
         $container->appendChild($helpText);
+        $container->appendChild($additionalText);
         $container->appendChild($button);
         $div->appendChild($container);
 
