@@ -1,9 +1,12 @@
 <?php
 
-defined('TYPO3_MODE') or exit();
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    'ig_content_blocking',
-    'Configuration/TypoScript',
-    'i-gelb content blocking'
-);
+call_user_func(function () {
+
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+        'ig_content_blocking',
+        'Configuration/TypoScript',
+        'i-gelb content blocking'
+    );
+});

@@ -2,22 +2,19 @@
 
 defined('TYPO3_MODE') || die('Access denied.');
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use Igelb\IgContentBlocking\Hooks\ContentPostProcessorHook;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use Igelb\IgContentBlocking\Controller\ConsentController;
 
-// This hook replaces all iframes with a note
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][] = ContentPostProcessorHook::class.'->removeExternalContent';
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = ContentPostProcessorHook::class.'->removeExternalContent';
+call_user_func(function () {
 
-ExtensionUtility::configurePlugin(
-    'Igelb.IgContentBlocking',
-    'ManageConsent',
-    [
-        ConsentController::class => 'manage',
-    ],
-    // Non cachable actions
-    [
-        ConsentController::class => 'manage',
-    ]
-);
+    ExtensionManagementUtility::configurePlugin(
+        'IgContentBlocking',
+        'ManageConsent',
+        [ConsentController::class => 'manage'],
+        [ConsentController::class => 'manage']
+    );
+
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][] = ContentPostProcessorHook::class.'->removeExternalContent';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = ContentPostProcessorHook::class.'->removeExternalContent';
+});
