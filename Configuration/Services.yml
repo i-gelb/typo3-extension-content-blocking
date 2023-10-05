@@ -1,4 +1,0 @@
-services:
-  hooks:
-    content_post_processor:
-      - 'ContentPostProcessorHook'

@@ -1,0 +1,6 @@
+services:
+  Igelb\IgContentBlocking\EventListener\ContentPostProcessorEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'ig-content-blocking.content-modifier'
+        event: TYPO3\CMS\Frontend\Event\AfterCacheableContentIsGeneratedEvent

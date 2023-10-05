@@ -10,7 +10,7 @@ class ContentPostProcessorHook implements ContentPostProcessorHookInterface
     public function process(PageObject $pageObject, array $configuration)
     {
 
-        die('asdasds');
+        die('2222');
 
         $content = $pageObject->getContent();
         // Perform operations on $content
@@ -26,6 +26,8 @@ class ContentPostProcessorHook implements ContentPostProcessorHookInterface
       */
     public function removeExternalContent(&$parameters, $ref)
     {
+
+        die('3333');
 
         $html = &$parameters['pObj']->content;
         $document = $this->_loadHtml($html);
