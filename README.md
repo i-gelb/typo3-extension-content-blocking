@@ -2,8 +2,8 @@
 Blockiert sämtliche `<iframe>` und `<script>` Elemente innerhalb des HTML body und ersetzt diese durch einen Einwilligungs-Banner.
 
 ## Anforderungen
-- PHP < 7.4
-- TYPO3 11
+- PHP < 8.1
+- TYPO3 12
 - Moderne Clients (**Kein** IE11 Support)
 
 ## Styling?
