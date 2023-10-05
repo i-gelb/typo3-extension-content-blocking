@@ -3,18 +3,30 @@
 namespace Igelb\IgContentBlocking\Hooks;
 
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentPostProcessorHookInterface;
 
-class ContentPostProcessorHook
+class ContentPostProcessorHook implements ContentPostProcessorHookInterface
 {
-    /**
-     * "Controller" of the hook
-     *
-     * @param array $parameters
-     *
-     * @return void
-     */
-    public function removeExternalContent(array &$parameters)
+    public function process(PageObject $pageObject, array $configuration)
     {
+
+        die('asdasds');
+
+        $content = $pageObject->getContent();
+        // Perform operations on $content
+        $pageObject->setContent($modifiedContent);
+    }
+
+
+    /**
+      * removeExternalContent
+      *
+      * @param array $parameters
+      * @param \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $ref
+      */
+    public function removeExternalContent(&$parameters, $ref)
+    {
+
         $html = &$parameters['pObj']->content;
         $document = $this->_loadHtml($html);
 

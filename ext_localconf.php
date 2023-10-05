@@ -14,6 +14,6 @@ call_user_func(function () {
         [ConsentController::class => 'manage']
     );
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][] = ContentPostProcessorHook::class . '->removeExternalContent';
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = ContentPostProcessorHook::class . '->removeExternalContent';
+    //$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][] = ContentPostProcessorHook::class . '->removeExternalContent';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = ContentPostProcessorHook::class;
 });
