@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Igelb\IgContentBlocking\Middleware\ContentReplacement:
+    public: true
+    arguments:
+      $responseFactory: '@TYPO3\CMS\Core\Http\ResponseFactory'
+      $requestFactory: '@TYPO3\CMS\Core\Http\RequestFactory'

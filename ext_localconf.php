@@ -8,7 +8,7 @@ use Igelb\IgContentBlocking\Controller\ConsentController;
 
 // This hook replaces all iframes with a note
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][] = ContentPostProcessorHook::class.'->removeExternalContent';
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = ContentPostProcessorHook::class.'->removeExternalContent';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentReplacementHook'][] = ContentPostProcessorHook::class . '->removeExternalContent';
 
 ExtensionUtility::configurePlugin(
     'Igelb.IgContentBlocking',
