@@ -82,6 +82,8 @@ class ContentPostProcessorHook
 
         $headline = $document->createElement('p');
         $headline->setAttribute('class', 'cc-blocked-headline');
+        $headline->setAttribute('role', 'heading');
+        $headline->setAttribute('aria-level', '2');
         $headline->nodeValue = LocalizationUtility::translate(
             key: 'header',
             extensionName: 'ig_content_blocking'
